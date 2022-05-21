@@ -23,18 +23,21 @@ public class CryptoPrice {
     @Temporal(TemporalType.DATE)
     private Date timestamp = new Date();
 
-    Integer price;
+    Long price;
 
     String coinType;
+
+    String currencyType;
 
     public CryptoPrice() {
     }
 
-    public CryptoPrice(Long id, Date timestamp, Integer price, String coinType) {
+    public CryptoPrice(Long id, Date timestamp, Long price, String coinType, String currencyType) {
         this.id = id;
         this.timestamp = timestamp;
         this.price = price;
         this.coinType = coinType;
+        this.currencyType = currencyType;
     }
 
 
@@ -54,11 +57,11 @@ public class CryptoPrice {
         this.timestamp = timestamp;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return this.price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
@@ -69,5 +72,14 @@ public class CryptoPrice {
     public void setCoinType(String coinType) {
         this.coinType = coinType;
     }
+
+    public String getCurrencyType() {
+        return this.currencyType;
+    }
+
+    public void setCurrencyType(String currencyType) {
+        this.currencyType = currencyType;
+    }
+
 
 }
