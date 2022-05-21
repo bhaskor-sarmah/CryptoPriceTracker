@@ -51,8 +51,7 @@ public class ScheduleCryptoPriceReadAndStore {
 
             // Extracting the price from the response
             Long price = obj.getBitcoin().get(currencyType);
-
-            System.out.println("Price => "+price);
+            
             if (logger.isDebugEnabled()) {
                 logger.debug("Received price value: " + price);
             }

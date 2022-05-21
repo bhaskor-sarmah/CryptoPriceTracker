@@ -1,7 +1,7 @@
 package com.bhaskor.CryptoPriceTracker.Response;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bhaskor.CryptoPriceTracker.Model.CryptoPrice;
 
@@ -10,14 +10,14 @@ public class PriceResponse {
     
     Long count;
 
-    Set<CryptoPrice> data = new HashSet<>();
+    List<CryptoPrice> data = new ArrayList<>();
 
 
     public PriceResponse() {
     }
 
 
-    public PriceResponse(Long count, Set<CryptoPrice> data) {
+    public PriceResponse(Long count, List<CryptoPrice> data) {
         this.count = count;
         this.data = data;
     }
@@ -31,11 +31,11 @@ public class PriceResponse {
         this.count = count;
     }
 
-    public Set<CryptoPrice> getData() {
+    public List<CryptoPrice> getData() {
         return this.data;
     }
 
-    public void setData(Set<CryptoPrice> data) {
+    public void setData(List<CryptoPrice> data) {
         this.data = data;
     }
 
