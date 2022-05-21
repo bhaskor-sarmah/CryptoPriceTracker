@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.bhaskor.CryptoPriceTracker.Response.ErrorResponse;
 import com.bhaskor.CryptoPriceTracker.Response.PriceResponse;
 import com.bhaskor.CryptoPriceTracker.Service.PriceInfoService;
@@ -26,18 +28,34 @@ public class PriceInfoController {
     PriceInfoService priceInfoService;
 
     @RequestMapping(method = RequestMethod.GET, path = "btc")
-    public ResponseEntity<?> getBtcPrice(@RequestParam("date") String dateStr, @RequestParam("offset") Long offset, @RequestParam("limit") Long limit){
+    public ResponseEntity<?> getBtcPrice(HttpServletRequest request, @RequestParam("date") String dateStr, @RequestParam("offset") Long offset,
+            @RequestParam("limit") Long limit) {
+        String currentUrl = request.getRequestURI();
+
+        // Verifying Date Data
         Date date = null;
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-    
+
             date = sdf.parse(dateStr);
-        }catch(ParseException e){
+        } catch (ParseException e) {
             logger.error("Invalid Date Format Received", e);
-            return ResponseEntity.badRequest().body(new ErrorResponse("Invalid date format received ! Expected format DD-MM-YYYY", 400, null));
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Invalid date format received ! Expected format DD-MM-YYYY", 400, null));
         }
 
-        return ResponseEntity.ok(priceInfoService.getPriceInfo(date, offset, limit));
+        // Verifying Offset and Limit
+        if(offset < 0 || limit <= 0){
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Invalid offset or limit received", 400, null));
+        }
+
+        if(offset%limit != 0){
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Offset Should be equally divisible by limit", 400, null));
+        }
+
+        return ResponseEntity.ok(priceInfoService.getPriceInfo(date, offset, limit, currentUrl));
     }
 
 }
