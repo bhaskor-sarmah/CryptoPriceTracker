@@ -1,0 +1,23 @@
+version: "3"
+services:
+  sringboot-app:
+    container_name: springboot-app
+    image: springboot-app
+    restart: always
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/crypto_price_db?autoReconnect=true&useSSL=false
+      MAX_PRICE: 3000000
+      MIN_PRICE: 500000
+      MYSQL_DATABASE: crypto_price_db
+
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:5.7.38
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: crypto_price_db
+      MYSQL_ROOT_PASSWORD: root
